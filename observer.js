@@ -60,12 +60,11 @@ Observer.observe = function(object, callback) {
  */
 Observer.unobserve = function(object, name, callback) {
     var id = object.observerGUID_,
-        data = Observer.observeMap[id],
         i, max, callbacks;
 
-    if (!id || !data) return;
+    if (!id) return;
 
-    callbacks = data.callbacks;
+    callbacks = Observer.callbacks[id];
     for (i = 0, max = callbacks.length; i < max; i++) {
         if (callbacks[i] === fn) {
             callbacks.splice(i, 1);
@@ -88,7 +87,7 @@ Observer.unobserveAll = function(object) {
 
     if (!id) return;
 
-    delete Observer.observeMap[id];
+    delete Observer.callbacks[id];
     Object.unobserve(object, Observer.observeCallback);
 };
 
